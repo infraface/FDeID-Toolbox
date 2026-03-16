@@ -4,7 +4,7 @@
 
 A modular face de-identification toolbox for privacy-preserving facial analysis research.
 
-## Quick Start
+## :rocket: Quick Start 
 
 ### Environment Setup
 **FDeID-Toolbox** is built exclusively on PyTorch, ensuring a lightweight and unified environment. No complex C++ extensions or conflicting frameworks.
@@ -39,7 +39,7 @@ python scripts/eval_privacy_lfw.py --config configs/eval/privacy_lfw.yaml --deid
 python scripts/eval_quality.py --config configs/eval/quality.yaml --original_dir /path/to/lfw --deid_dir runs/inference/blur_lfw
 ```
 
-## YAML Configuration
+## :wrench: YAML Configuration
 
 All scripts accept `--config path/to/config.yaml`. The YAML keys correspond directly to CLI argument names (without the `--` prefix). CLI arguments always override YAML values.
 
@@ -64,7 +64,7 @@ models:
   - adaface
 ```
 
-## BaseDeIdentifier Class
+## :notebook: BaseDeIdentifier Class
 
 All de-identification methods inherit from `BaseDeIdentifier` (`core/fdeid/base.py`), providing a unified interface.
 
@@ -166,7 +166,7 @@ class MyDeIdentifier(BaseDeIdentifier):
 
 To integrate into the factory system, register in `core/fdeid/__init__.py`.
 
-## Available Methods
+## :pencil: Available Methods
 
 | Category | Method | Config Key |
 |----------|--------|------------|
@@ -188,7 +188,7 @@ To integrate into the factory system, register in `core/fdeid/__init__.py`.
 | K-Same | k-Same-Select | `select` |
 | K-Same | k-Same-Furthest | `furthest` |
 
-## Evaluation Metrics
+## :triangular_ruler: Evaluation Metrics 
 
 | Category | Metric | Script |
 |----------|--------|--------|
@@ -201,7 +201,7 @@ To integrate into the factory system, register in `core/fdeid/__init__.py`.
 | Utility - Ethnicity | Accuracy | `eval_ethnicity.py` |
 | Utility - rPPG | Heart rate MAE, RMSE | `eval_rppg_utility.py` |
 
-## Supported Datasets
+## :page_facing_up: Supported Datasets
 
 | Dataset | Path |
 |---------|------|
@@ -212,7 +212,7 @@ To integrate into the factory system, register in `core/fdeid/__init__.py`.
 | FairFace | `/path/to/datasets/FairFace` |
 | PURE | `/path/to/datasets/PURE` |
 
-## Acknowledgments
+## :hearts: Acknowledgments
 
 This project would not have been possible without the open-source community.
 
@@ -228,3 +228,9 @@ We thank the authors and maintainers of the repositories and pretrained models t
 We also thank the creators of datasets such as LFW and AgeDB.
 
 Please support these original projects by citing their papers and visiting their repositories.
+
+<!-- ## :balloon: Citation
+If you find our work useful, please kindly cite as:
+```
+
+``` -->
