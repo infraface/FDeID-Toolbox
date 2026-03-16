@@ -1,3 +1,5 @@
+<img src="./assets/logo.png" width=100%>
+
 # Face De-identification Toolbox
 
 A modular face de-identification toolbox for privacy-preserving facial analysis research.
