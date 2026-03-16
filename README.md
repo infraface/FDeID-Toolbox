@@ -4,6 +4,12 @@
 
 A modular face de-identification toolbox for privacy-preserving facial analysis research.
 
+## :bell: Bugs, Fixes, and New Features
+We welcome community feedback and contributions to help improve this toolbox.  
+* [x] Naive methods uploading.
+* [ ] $k$-Same family methods uploading.
+* [ ] Pretrained model uploading and download link providing.
+
 ## :rocket: Quick Start 
 
 ### Environment Setup
