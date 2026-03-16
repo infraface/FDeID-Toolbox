@@ -5,7 +5,7 @@ A modular face de-identification toolbox for privacy-preserving facial analysis 
 ## Quick Start
 
 ### Environment Setup
-*FDeID-Toolbox* is built exclusively on PyTorch, ensuring a lightweight and unified environment. No complex C++ extensions or conflicting frameworks.
+**FDeID-Toolbox** is built exclusively on PyTorch, ensuring a lightweight and unified environment. No complex C++ extensions or conflicting frameworks.
 ```bash
 # 1. Clone the repo
 git clone https://github.com/infraface/FDeID-Toolbox.git
@@ -209,3 +209,20 @@ To integrate into the factory system, register in `core/fdeid/__init__.py`.
 | CelebA-HQ | `/path/to/datasets/Dataset_CelebA_HQ/celeba_hq` |
 | FairFace | `/path/to/datasets/FairFace` |
 | PURE | `/path/to/datasets/PURE` |
+
+## Acknowledgments
+
+This project would not have been possible without the open-source community.
+
+We thank the authors and maintainers of the repositories and pretrained models that our toolbox builds on, reimplements, or interfaces with. We acknowledge work related to:
+
+- RetinaFace and Dlib for face detection and landmark localization
+- ArcFace, CosFace, and AdaFace for face recognition
+- FairFace, POSTER, HRNet, and FactorizePhys for utility evaluation
+- k-Same-Average, k-Same-Select, and k-Same-Furthest
+- PGD, MI-FGSM, TI-DIM, TIP-IM, and Chameleon
+- CIAGAN, AMT-GAN, Adv-Makeup, WeakenDiff, DeID-rPPG, and G$^{2}$Face
+
+We also thank the creators of datasets such as LFW and AgeDB.
+
+Please support these original projects by citing their papers and visiting their repositories.
