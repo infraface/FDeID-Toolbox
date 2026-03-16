@@ -203,20 +203,17 @@ To integrate into the factory system, register in `core/fdeid/__init__.py`.
 
 ## :page_facing_up: Supported Datasets
 
-| Dataset | Path |
+| Dataset | Evaluation Metric |
 |---------|------|
-| LFW | `/path/to/datasets/Dataset_LFW` |
-| AgeDB | `/path/to/datasets/AgeDB` |
-| AffectNet | `/path/to/datasets/AffectNet` |
-| CelebA-HQ | `/path/to/datasets/Dataset_CelebA_HQ/celeba_hq` |
-| FairFace | `/path/to/datasets/FairFace` |
-| PURE | `/path/to/datasets/PURE` |
+| LFW | `Privacy`, `Quality` |
+| AgeDB | `Privacy`, `Utility-Age`, `Quality` |
+| AffectNet | `Utility-Expression` |
+| CelebA-HQ | `Utility-Landmark` |
+| FairFace | `Utility-Gender`, `Utility-Ethnicity` |
+| PURE | `Utility-rPPG` |
 
 ## :hearts: Acknowledgments
-
-This project would not have been possible without the open-source community.
-
-We thank the authors and maintainers of the repositories and pretrained models that our toolbox builds on, reimplements, or interfaces with. We acknowledge work related to:
+We thank the authors and maintainers of open-source repositories and pretrained models that our toolbox builds on or reimplements. We acknowledge work related to:
 
 - RetinaFace and Dlib for face detection and landmark localization
 - ArcFace, CosFace, and AdaFace for face recognition
@@ -224,8 +221,6 @@ We thank the authors and maintainers of the repositories and pretrained models t
 - k-Same-Average, k-Same-Select, and k-Same-Furthest
 - PGD, MI-FGSM, TI-DIM, TIP-IM, and Chameleon
 - CIAGAN, AMT-GAN, Adv-Makeup, WeakenDiff, DeID-rPPG, and G$^{2}$Face
-
-We also thank the creators of datasets such as LFW and AgeDB.
 
 Please support these original projects by citing their papers and visiting their repositories.
 
