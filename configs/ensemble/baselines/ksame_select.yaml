@@ -1,0 +1,6 @@
+- type: ksame
+  method_name: select
+  description: k-Same-Select - Select one from k similar faces
+  k: 5
+  selection_mode: random
+  retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth

@@ -1,0 +1,11 @@
+# Landmark Utility Evaluation on CelebA-HQ
+# Usage: python scripts/eval_landmark.py --config configs/eval/landmark.yaml --deid_dir /path/to/deid
+
+deid_dir: null  # Must be provided via CLI or overridden
+output_dir: runs/eval/landmark
+celeba_hq_dir: /path/to/datasets/Dataset_CelebA_HQ/celeba_hq
+landmarks_csv: /path/to/datasets/Dataset_CelebA/list_landmarks_align_celeba.csv
+device: cuda
+
+# Pretrained model paths
+hrnet_model: ./weight/HRNet_pre_trained/HR18-COFW.pth

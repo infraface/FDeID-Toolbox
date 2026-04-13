@@ -1,0 +1,11 @@
+# Gender Utility Evaluation on FairFace
+# Usage: python scripts/eval_gender.py --config configs/eval/gender.yaml --deid_dir /path/to/deid
+
+original_dir: /path/to/datasets/FairFace
+deid_dir: null  # Must be provided via CLI or overridden
+output_dir: runs/eval/gender
+split: val
+device: cuda
+
+# Pretrained model paths
+fairface_model: ./weight/FairFace_pre_trained/res34_fair_align_multi_7_20190809.pt

@@ -1,0 +1,23 @@
+- type: generative
+  method_name: ciagan
+  description: CIAGAN - high identity suppression
+  weights_path: ./weight/ciagan_pre_trained/modelG_ciagan.pth
+  retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+  dlib_path: ./weight/ciagan_pre_trained/shape_predictor_68_face_landmarks.dat
+- type: adversarial
+  method_name: tidim
+  description: TI-DIM - high utility preservation
+  epsilon: 0.03137
+  num_iter: 20
+  arcface_model: ./weight/ms1mv3_arcface_r100_fp16/backbone.pth
+  cosface_model: ./weight/glint360k_cosface_r50_fp16_0.1/backbone.pth
+  adaface_model: ./weight/adaface_pre_trained/adaface_ir50_ms1mv2.ckpt
+- type: ksame
+  method_name: select
+  description: k-Same-Select - balanced approach
+  k: 5
+  retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+- type: generative
+  method_name: deid_rppg
+  description: DeID-rPPG - rPPG preserving
+  weights_path: ./weight/deid_rppg_pre_trained/autoencoder.pt

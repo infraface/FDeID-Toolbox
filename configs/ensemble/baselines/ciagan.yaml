@@ -1,0 +1,6 @@
+- type: generative
+  method_name: ciagan
+  description: CIAGAN - Conditional Identity Anonymization GAN
+  weights_path: ./weight/ciagan_pre_trained/modelG_ciagan.pth
+  retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+  dlib_path: ./weight/ciagan_pre_trained/shape_predictor_68_face_landmarks.dat

@@ -1,0 +1,9 @@
+- type: adversarial
+  method_name: tidim
+  description: TI-DIM - Translation-Invariant Diverse Input Method
+  epsilon: 0.03137
+  num_iter: 20
+  decay_factor: 1.0
+  arcface_model: ./weight/ms1mv3_arcface_r100_fp16/backbone.pth
+  cosface_model: ./weight/glint360k_cosface_r50_fp16_0.1/backbone.pth
+  adaface_model: ./weight/adaface_pre_trained/adaface_ir50_ms1mv2.ckpt

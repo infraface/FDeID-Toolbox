@@ -1,0 +1,15 @@
+- type: generative
+  method_name: ciagan
+  description: 'Step 1: CIAGAN identity transformation'
+  weights_path: ./weight/ciagan_pre_trained/modelG_ciagan.pth
+  retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+  dlib_path: ./weight/ciagan_pre_trained/shape_predictor_68_face_landmarks.dat
+- type: adversarial
+  method_name: tidim
+  description: 'Step 2: TI-DIM adversarial perturbation'
+  epsilon: 0.03137
+  num_iter: 20
+  decay_factor: 1.0
+  arcface_model: ./weight/ms1mv3_arcface_r100_fp16/backbone.pth
+  cosface_model: ./weight/glint360k_cosface_r50_fp16_0.1/backbone.pth
+  adaface_model: ./weight/adaface_pre_trained/adaface_ir50_ms1mv2.ckpt

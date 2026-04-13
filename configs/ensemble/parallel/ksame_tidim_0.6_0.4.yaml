@@ -1,0 +1,15 @@
+- type: ksame
+  method_name: select
+  description: 'k-Same-Select (weight: 0.6)'
+  k: 5
+  selection_mode: random
+  retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+- type: adversarial
+  method_name: tidim
+  description: 'TI-DIM (weight: 0.4)'
+  epsilon: 0.03137
+  num_iter: 20
+  decay_factor: 1.0
+  arcface_model: ./weight/ms1mv3_arcface_r100_fp16/backbone.pth
+  cosface_model: ./weight/glint360k_cosface_r50_fp16_0.1/backbone.pth
+  adaface_model: ./weight/adaface_pre_trained/adaface_ir50_ms1mv2.ckpt

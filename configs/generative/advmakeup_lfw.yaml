@@ -1,0 +1,14 @@
+# Generative De-identification: Adv-Makeup on LFW
+# Usage: python scripts/run_generative_deid.py --config configs/generative/advmakeup_lfw.yaml
+
+dataset: lfw
+method: advmakeup
+target_name: "00288"
+
+# Pretrained model paths
+weights_path: ./weight/advmakeup_pre_trained
+dlib_path: ./weight/ciagan_pre_trained/shape_predictor_68_face_landmarks.dat
+retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+
+save_dir: runs/inference/advmakeup_lfw
+device: cuda

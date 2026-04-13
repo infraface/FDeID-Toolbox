@@ -1,0 +1,13 @@
+# Expression Utility Evaluation on AffectNet
+# Usage: python scripts/eval_expression.py --config configs/eval/expression.yaml --deid_dir /path/to/deid
+
+original_dir: /path/to/datasets/AffectNet
+deid_dir: null  # Must be provided via CLI or overridden
+output_dir: runs/eval/expression
+split: Test
+num_classes: 7
+batch_size: 32
+device: cuda
+
+# Pretrained model paths
+poster_model_dir: ./weight/POSTER_pre_trained

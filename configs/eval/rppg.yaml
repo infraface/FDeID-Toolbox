@@ -1,0 +1,11 @@
+# rPPG Utility Evaluation on PURE
+# Usage: python scripts/eval_rppg_utility.py --config configs/eval/rppg.yaml
+
+dataset_path: /path/to/datasets/PURE
+output_dir: runs/eval/rppg
+model_path: ./weight/rppg_pre_trained/FactorizePhys_PURE_PURE.pth
+retinaface_path: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+face_detector_backend: retinaface
+device: cuda
+image_size: 72
+large_box_coef: 1.5

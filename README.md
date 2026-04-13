@@ -230,8 +230,13 @@ We thank the authors and maintainers of open-source repositories and pretrained 
 
 Please support these original projects by citing their papers and visiting their repositories.
 
-<!-- ## :balloon: Citation
+## :balloon: Citation
 If you find our work useful, please kindly cite as:
 ```
-
-``` -->
+@article{wei2026fdeid,
+  title={FDeID-Toolbox: Face De-Identification Toolbox},
+  author={Wei, Hui and Yu, Hao and Zhao, Guoying},
+  journal={arXiv preprint arXiv:2603.13121},
+  year={2026}
+}
+```

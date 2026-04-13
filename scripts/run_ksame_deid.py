@@ -60,8 +60,8 @@ from core.data.dataset_utils import (
 from core.config_utils import load_config_into_args
 
 
-# Model paths
-RETINAFACE_MODEL = './weight/retinaface_pre_trained/Resnet50_Final.pth'
+# Default model paths (overridable via config)
+DEFAULT_RETINAFACE_MODEL = './weight/retinaface_pre_trained/Resnet50_Final.pth'
 
 
 def parse_args():
@@ -119,6 +119,10 @@ Examples:
                         help='Block size for k-same-pixelate method (default: 10)')
     parser.add_argument('--reference_dataset', type=str, default=None,
                         help='Path to reference face dataset (default: use same dataset)')
+
+    # Pretrained model paths
+    parser.add_argument('--retinaface_model', type=str, default=DEFAULT_RETINAFACE_MODEL,
+                        help='Path to RetinaFace model weights')
 
     # Output arguments
     parser.add_argument('--save_dir', type=str, required=True,
@@ -197,7 +201,7 @@ def save_config(save_dir: Path, args, dataset_path: str, reference_dataset: str,
             'max_images': args.max_images,
         },
         'device': args.device,
-        'detector_model': RETINAFACE_MODEL,
+        'detector_model': args.retinaface_model,
     }
 
     config_file = save_dir / 'config.yaml'
@@ -265,7 +269,7 @@ def main():
     # Initialize face detector
     print("\nInitializing face detector...")
     detector = FaceDetector(
-        model_path=RETINAFACE_MODEL,
+        model_path=args.retinaface_model,
         network='resnet50',
         confidence_threshold=0.5,
         device=args.device

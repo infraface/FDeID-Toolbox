@@ -1,0 +1,12 @@
+# Generative De-identification: DeID-rPPG on LFW
+# Usage: python scripts/run_generative_deid.py --config configs/generative/deid_rppg_lfw.yaml
+
+dataset: lfw
+method: deid_rppg
+
+# Pretrained model paths
+weights_path: ./weight/deid_rppg_pre_trained/autoencoder.pt
+retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+
+save_dir: runs/inference/deid_rppg_lfw
+device: cuda

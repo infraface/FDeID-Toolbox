@@ -1,0 +1,22 @@
+# Adversarial De-identification: Chameleon (P3-Mask) on LFW
+# Reference: Chow et al. "Personalized Privacy Protection Mask Against
+#            Unauthorized Facial Recognition" (ECCV 2024)
+# Usage: python scripts/run_adversarial_deid.py --config configs/adversarial/chameleon_lfw.yaml
+
+dataset: lfw
+method: chameleon
+epsilon: 0.06275    # 16/255
+num_epochs: 10
+learning_rate: 0.001
+l_threshold: 0.030  # SSIM dissimilarity budget
+batch_size: 4
+seed: 2023
+
+# Pretrained model paths
+retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+arcface_model: ./weight/ms1mv3_arcface_r100_fp16/backbone.pth
+cosface_model: ./weight/glint360k_cosface_r50_fp16_0.1/backbone.pth
+adaface_model: ./weight/adaface_pre_trained/adaface_ir50_ms1mv2.ckpt
+
+save_dir: runs/inference/chameleon_lfw
+device: cuda

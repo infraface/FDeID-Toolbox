@@ -1,0 +1,12 @@
+# Naive De-identification: Black Mask on LFW
+# Usage: python scripts/run_naive_deid.py --config configs/naive/mask_lfw.yaml
+
+dataset: lfw
+method: mask
+mask_color: [0, 0, 0]
+
+# Pretrained model paths
+retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+
+save_dir: runs/inference/mask_lfw
+device: cuda

@@ -1,0 +1,13 @@
+# K-Same De-identification: k-Same-Pixelate on LFW
+# Usage: python scripts/run_ksame_deid.py --config configs/ksame/pixelate_lfw.yaml
+
+dataset: lfw
+method: pixelate
+k: 10
+block_size: 10
+
+# Pretrained model paths
+retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+
+save_dir: runs/inference/ksame_pixelate_lfw
+device: cuda

@@ -95,6 +95,10 @@ def parse_args():
     parser.add_argument('--max_images', type=int, default=None,
                         help='Maximum number of images to process (default: all)')
 
+    # Pretrained model paths
+    parser.add_argument('--hrnet_model', type=str, default=None,
+                        help='Path to HRNet model weights (default: uses built-in default)')
+
     return load_config_into_args(parser)
 
 
@@ -317,6 +321,7 @@ def main():
     # Initialize HRNet predictor
     print("\nInitializing HRNet landmark predictor...")
     predictor = create_hrnet_predictor(
+        model_path=args.hrnet_model,
         num_landmarks=29,  # COFW
         device=args.device
     )

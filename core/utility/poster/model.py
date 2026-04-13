@@ -17,14 +17,14 @@ from .mobilefacenet import MobileFaceNet
 from .hyp_crossvit import HyVisionTransformer
 
 
-# Pretrained model paths
-POSTER_PRETRAINED_DIR = './weight/POSTER_pre_trained'
-AFFECT_7CLASS_MODEL = os.path.join(POSTER_PRETRAINED_DIR, 'affect_best.pth')
-AFFECT_8CLASS_MODEL = os.path.join(POSTER_PRETRAINED_DIR, 'affect8_best.pth')
+# Default pretrained model paths (overridable via model_dir parameter)
+DEFAULT_POSTER_PRETRAINED_DIR = './weight/POSTER_pre_trained'
+AFFECT_7CLASS_MODEL = os.path.join(DEFAULT_POSTER_PRETRAINED_DIR, 'affect_best.pth')
+AFFECT_8CLASS_MODEL = os.path.join(DEFAULT_POSTER_PRETRAINED_DIR, 'affect8_best.pth')
 
 # Backbone pretrained weights (from POSTER pretrain folder)
-MOBILEFACENET_WEIGHTS = os.path.join(POSTER_PRETRAINED_DIR, 'mobilefacenet_model_best.pth.tar')
-IR50_WEIGHTS = os.path.join(POSTER_PRETRAINED_DIR, 'ir50.pth')
+MOBILEFACENET_WEIGHTS = os.path.join(DEFAULT_POSTER_PRETRAINED_DIR, 'mobilefacenet_model_best.pth.tar')
+IR50_WEIGHTS = os.path.join(DEFAULT_POSTER_PRETRAINED_DIR, 'ir50.pth')
 
 # Expression labels
 EXPRESSION_LABELS_7CLASS = ['Neutral', 'Happy', 'Sad', 'Surprise', 'Fear', 'Disgust', 'Anger']
@@ -192,7 +192,7 @@ class POSTER(nn.Module):
         return probs
 
 
-def load_poster_model(num_classes=7, model_type='large', device='cuda'):
+def load_poster_model(num_classes=7, model_type='large', device='cuda', model_dir=None):
     """
     Load POSTER model with pretrained weights.
 
@@ -200,6 +200,7 @@ def load_poster_model(num_classes=7, model_type='large', device='cuda'):
         num_classes: 7 for basic emotions, 8 for including contempt
         model_type: 'small', 'base', or 'large'
         device: Device to load model on
+        model_dir: Path to POSTER pretrained weights directory (default: uses DEFAULT_POSTER_PRETRAINED_DIR)
 
     Returns:
         Loaded POSTER model
@@ -207,10 +208,11 @@ def load_poster_model(num_classes=7, model_type='large', device='cuda'):
     model = POSTER(img_size=224, num_classes=num_classes, model_type=model_type, device=device)
 
     # Select checkpoint based on num_classes
+    pretrained_dir = model_dir or DEFAULT_POSTER_PRETRAINED_DIR
     if num_classes == 7:
-        checkpoint_path = AFFECT_7CLASS_MODEL
+        checkpoint_path = os.path.join(pretrained_dir, 'affect_best.pth')
     else:
-        checkpoint_path = AFFECT_8CLASS_MODEL
+        checkpoint_path = os.path.join(pretrained_dir, 'affect8_best.pth')
 
     if os.path.exists(checkpoint_path):
         print(f"[POSTER] Loading model weights from {checkpoint_path}")

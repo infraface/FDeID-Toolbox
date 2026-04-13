@@ -1,0 +1,25 @@
+# Adversarial De-identification: TIP-IM on LFW
+# Reference: Yang et al. "Towards Face Encryption by Generating Adversarial
+#            Identity Masks" (ICCV 2021)
+# Usage: python scripts/run_adversarial_deid.py --config configs/adversarial/tipim_lfw.yaml
+
+dataset: lfw
+method: tipim
+epsilon: 0.04706    # 12/255
+alpha: 0.003529     # 1.5 * epsilon / num_iter
+num_iter: 20
+decay_factor: 1.0
+norm: l2            # 'l2' or 'linf' (step direction; per-pixel clip is L-inf)
+gain: gain3         # 'gain1', 'gain2', or 'gain3' (submodular selection)
+gamma: 0.0          # MMD natural-image loss weight (0 = disabled)
+n_targets: 5        # number of target identities
+seed: 0
+
+# Pretrained model paths
+retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+arcface_model: ./weight/ms1mv3_arcface_r100_fp16/backbone.pth
+cosface_model: ./weight/glint360k_cosface_r50_fp16_0.1/backbone.pth
+adaface_model: ./weight/adaface_pre_trained/adaface_ir50_ms1mv2.ckpt
+
+save_dir: runs/inference/tipim_lfw
+device: cuda

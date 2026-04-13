@@ -54,9 +54,9 @@ from core.data.dataset_utils import (
 from core.config_utils import load_config_into_args
 
 
-# Model paths
-RETINAFACE_MODEL = './weight/retinaface_pre_trained/Resnet50_Final.pth'
-DLIB_LANDMARK_MODEL = './weight/ciagan_pre_trained/shape_predictor_68_face_landmarks.dat'
+# Default model paths (overridable via config)
+DEFAULT_RETINAFACE_MODEL = './weight/retinaface_pre_trained/Resnet50_Final.pth'
+DEFAULT_DLIB_LANDMARK_MODEL = './weight/ciagan_pre_trained/shape_predictor_68_face_landmarks.dat'
 
 
 def parse_args():
@@ -127,8 +127,10 @@ Examples:
                         help='Target identity name for Adv-Makeup (default: 00288)')
 
     # WeakenDiff specific arguments
-    parser.add_argument('--diffusion_model_id', type=str, default='./weight/weakendiff_pre_trained',
+    parser.add_argument('--diffusion_model_id', type=str, default=None,
                         help='Path or HuggingFace ID for Stable Diffusion model')
+    parser.add_argument('--assets_path', type=str, default=None,
+                        help='Path to WeakenDiff assets directory')
     parser.add_argument('--preset', type=str, default=None,
                         choices=['fast', 'balanced', 'quality'],
                         help='WeakenDiff speed preset: fast (~5s/img), balanced (~10s/img), quality (~19s/img)')
@@ -144,6 +146,12 @@ Examples:
     # G2Face specific arguments
     parser.add_argument('--random_seed', type=int, default=None,
                         help='Random seed for G2Face identity generation (default: None, random)')
+
+    # Pretrained model paths
+    parser.add_argument('--retinaface_model', type=str, default=DEFAULT_RETINAFACE_MODEL,
+                        help='Path to RetinaFace model weights')
+    parser.add_argument('--dlib_path', type=str, default=DEFAULT_DLIB_LANDMARK_MODEL,
+                        help='Path to dlib landmark predictor')
 
     # Output arguments
     parser.add_argument('--save_dir', type=str, required=True,
@@ -292,7 +300,7 @@ def main():
     # Initialize face detector
     print("\nInitializing face detector...")
     detector = FaceDetector(
-        model_path=RETINAFACE_MODEL,
+        model_path=args.retinaface_model,
         network='resnet50',
         confidence_threshold=0.5,
         device=args.device
@@ -303,8 +311,8 @@ def main():
     deid_config = {
         'method_name': args.method,
         'weights_path': args.weights_path,
-        'retinaface_path': RETINAFACE_MODEL,
-        'dlib_path': DLIB_LANDMARK_MODEL,
+        'retinaface_path': args.retinaface_model,
+        'dlib_path': args.dlib_path,
         'device': args.device
     }
 
@@ -319,7 +327,10 @@ def main():
         deid_config['target_name'] = args.target_name
 
     elif args.method == 'weakendiff':
-        deid_config['diffusion_model_id'] = args.diffusion_model_id
+        if args.diffusion_model_id:
+            deid_config['diffusion_model_id'] = args.diffusion_model_id
+        if args.assets_path:
+            deid_config['assets_path'] = args.assets_path
         # Use preset if specified
         if args.preset:
             deid_config['preset'] = args.preset

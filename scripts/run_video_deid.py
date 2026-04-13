@@ -51,8 +51,8 @@ from core.video import VideoProcessor, discover_sources
 from core.config_utils import load_config_into_args
 
 
-# Model paths
-RETINAFACE_MODEL = './weight/retinaface_pre_trained/Resnet50_Final.pth'
+# Default model paths (overridable via config)
+DEFAULT_RETINAFACE_MODEL = './weight/retinaface_pre_trained/Resnet50_Final.pth'
 
 
 def parse_args():
@@ -105,6 +105,10 @@ Examples:
                         help='Maximum frames per video (default: all)')
     parser.add_argument('--max_videos', type=int, default=None,
                         help='Maximum number of videos to process (default: all)')
+
+    # Pretrained model paths
+    parser.add_argument('--retinaface_model', type=str, default=DEFAULT_RETINAFACE_MODEL,
+                        help='Path to RetinaFace model weights')
 
     # Output arguments
     parser.add_argument('--save_dir', type=str, required=True,
@@ -177,7 +181,7 @@ def main():
     # Initialize face detector
     print("\nInitializing face detector...")
     detector = FaceDetector(
-        model_path=RETINAFACE_MODEL,
+        model_path=args.retinaface_model,
         network='resnet50',
         confidence_threshold=0.5,
         device=args.device
@@ -279,7 +283,7 @@ def main():
         },
         'per_video_stats': all_stats,
         'device': args.device,
-        'detector_model': RETINAFACE_MODEL,
+        'detector_model': args.retinaface_model,
     }
 
     config_file = save_dir / 'config.yaml'

@@ -1,0 +1,12 @@
+# Naive De-identification: Pixelation on LFW
+# Usage: python scripts/run_naive_deid.py --config configs/naive/pixelate_lfw.yaml
+
+dataset: lfw
+method: pixelate
+block_size: 8
+
+# Pretrained model paths
+retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+
+save_dir: runs/inference/pixelate_lfw
+device: cuda

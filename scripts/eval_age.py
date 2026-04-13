@@ -70,6 +70,10 @@ def parse_args():
     parser.add_argument('--max_images', type=int, default=None,
                         help='Maximum number of images to process (default: all)')
 
+    # Pretrained model paths
+    parser.add_argument('--fairface_model', type=str, default=None,
+                        help='Path to FairFace model weights (default: uses built-in default)')
+
     return load_config_into_args(parser)
 
 
@@ -179,7 +183,7 @@ def main():
 
     # Initialize FairFace predictor
     print("\nInitializing FairFace predictor...")
-    predictor = create_fairface_predictor(device=args.device)
+    predictor = create_fairface_predictor(model_path=args.fairface_model, device=args.device)
 
     # Process images
     print(f"\nProcessing {len(image_pairs)} image pairs...")

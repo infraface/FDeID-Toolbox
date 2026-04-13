@@ -1,0 +1,13 @@
+# Generative De-identification: CIAGAN on AgeDB
+# Usage: python scripts/run_generative_deid.py --config configs/generative/ciagan_agedb.yaml
+
+dataset: agedb
+method: ciagan
+
+# Pretrained model paths
+weights_path: ./weight/ciagan_pre_trained/modelG_ciagan.pth
+retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+dlib_path: ./weight/ciagan_pre_trained/shape_predictor_68_face_landmarks.dat
+
+save_dir: runs/inference/ciagan_agedb
+device: cuda

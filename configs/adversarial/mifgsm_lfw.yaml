@@ -1,0 +1,19 @@
+# Adversarial De-identification: MI-FGSM on LFW
+# Reference: Dong et al. "Boosting Adversarial Attacks with Momentum" (CVPR 2018)
+# Usage: python scripts/run_adversarial_deid.py --config configs/adversarial/mifgsm_lfw.yaml
+
+dataset: lfw
+method: mifgsm
+epsilon: 0.06275  # 16/255
+alpha: 0.006275   # epsilon / num_iter
+num_iter: 10
+decay_factor: 1.0
+
+# Pretrained model paths
+retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+arcface_model: ./weight/ms1mv3_arcface_r100_fp16/backbone.pth
+cosface_model: ./weight/glint360k_cosface_r50_fp16_0.1/backbone.pth
+adaface_model: ./weight/adaface_pre_trained/adaface_ir50_ms1mv2.ckpt
+
+save_dir: runs/inference/mifgsm_lfw
+device: cuda

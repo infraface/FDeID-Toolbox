@@ -1,0 +1,14 @@
+# Generative De-identification: AMT-GAN on LFW
+# Usage: python scripts/run_generative_deid.py --config configs/generative/amtgan_lfw.yaml
+
+dataset: lfw
+method: amtgan
+
+# Pretrained model paths
+weights_path: ./weight/amtgan_data_weight/checkpoints/G.pth
+reference_dir: ./weight/amtgan_data_weight/assets/datasets/reference
+dlib_path: ./weight/ciagan_pre_trained/shape_predictor_68_face_landmarks.dat
+retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+
+save_dir: runs/inference/amtgan_lfw
+device: cuda

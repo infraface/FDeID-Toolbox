@@ -82,6 +82,11 @@ def parse_args():
                         help='Maximum number of images to process (default: all)')
     parser.add_argument('--workers', type=int, default=4,
                         help='Number of data loading workers (default: 4)')
+
+    # Pretrained model paths
+    parser.add_argument('--poster_model_dir', type=str, default=None,
+                        help='Path to POSTER pretrained weights directory (default: uses built-in default)')
+
     return load_config_into_args(parser)
 
 
@@ -359,7 +364,8 @@ def main():
 
     # Load POSTER model
     print("\nLoading POSTER model...")
-    model = load_poster_model(num_classes=args.num_classes, model_type='large', device=args.device)
+    model = load_poster_model(num_classes=args.num_classes, model_type='large', device=args.device,
+                              model_dir=args.poster_model_dir)
 
     # Evaluate on original dataset
     print("\nEvaluating on original dataset...")

@@ -43,11 +43,11 @@ from core.identity import AdaFace, ArcFace, CosFace, FaceDetector
 from core.config_utils import load_config_into_args
 
 
-# Model paths
-RETINAFACE_MODEL = './weight/retinaface_pre_trained/Resnet50_Final.pth'
-ADAFACE_MODEL = './weight/adaface_pre_trained/adaface_ir50_ms1mv2.ckpt'
-ARCFACE_MODEL = './weight/ms1mv3_arcface_r100_fp16/backbone.pth'
-COSFACE_MODEL = './weight/glint360k_cosface_r50_fp16_0.1/backbone.pth'
+# Default model paths (overridable via config)
+DEFAULT_RETINAFACE_MODEL = './weight/retinaface_pre_trained/Resnet50_Final.pth'
+DEFAULT_ADAFACE_MODEL = './weight/adaface_pre_trained/adaface_ir50_ms1mv2.ckpt'
+DEFAULT_ARCFACE_MODEL = './weight/ms1mv3_arcface_r100_fp16/backbone.pth'
+DEFAULT_COSFACE_MODEL = './weight/glint360k_cosface_r50_fp16_0.1/backbone.pth'
 
 
 def parse_args():
@@ -69,6 +69,17 @@ def parse_args():
     parser.add_argument('--models', type=str, nargs='+',
                         default=['arcface', 'cosface', 'adaface'],
                         help='Models to evaluate (default: arcface cosface adaface)')
+
+    # Pretrained model paths
+    parser.add_argument('--retinaface_model', type=str, default=DEFAULT_RETINAFACE_MODEL,
+                        help='Path to RetinaFace model weights')
+    parser.add_argument('--arcface_model', type=str, default=DEFAULT_ARCFACE_MODEL,
+                        help='Path to ArcFace model weights')
+    parser.add_argument('--cosface_model', type=str, default=DEFAULT_COSFACE_MODEL,
+                        help='Path to CosFace model weights')
+    parser.add_argument('--adaface_model', type=str, default=DEFAULT_ADAFACE_MODEL,
+                        help='Path to AdaFace model weights')
+
     return load_config_into_args(parser)
 
 
@@ -192,8 +203,16 @@ def generate_agedb_pairs(person_images: Dict[str, List[str]],
 class PrivacyEvaluator:
     """Evaluator for privacy protection metrics."""
 
-    def __init__(self, device: str = 'cuda'):
+    def __init__(self, device: str = 'cuda',
+                 retinaface_model: str = None,
+                 arcface_model: str = None,
+                 cosface_model: str = None,
+                 adaface_model: str = None):
         self.device = device
+        self.retinaface_model = retinaface_model or DEFAULT_RETINAFACE_MODEL
+        self.arcface_model = arcface_model or DEFAULT_ARCFACE_MODEL
+        self.cosface_model = cosface_model or DEFAULT_COSFACE_MODEL
+        self.adaface_model = adaface_model or DEFAULT_ADAFACE_MODEL
         self.detector = None
         self.recognizers = {}
 
@@ -208,7 +227,7 @@ class PrivacyEvaluator:
         if self.detector is None:
             print("Loading RetinaFace detector...")
             self.detector = FaceDetector(
-                model_path=RETINAFACE_MODEL,
+                model_path=self.retinaface_model,
                 network='resnet50',
                 device=self.device
             )
@@ -222,20 +241,20 @@ class PrivacyEvaluator:
 
         if model_name == 'adaface':
             recognizer = AdaFace(
-                model_path=ADAFACE_MODEL,
+                model_path=self.adaface_model,
                 architecture='ir_50',
                 device=self.device
             )
         elif model_name == 'arcface':
             recognizer = ArcFace(
-                model_path=ARCFACE_MODEL,
+                model_path=self.arcface_model,
                 num_layers=100,
                 embedding_size=512,
                 device=self.device
             )
         elif model_name == 'cosface':
             recognizer = CosFace(
-                model_path=COSFACE_MODEL,
+                model_path=self.cosface_model,
                 num_layers=50,
                 embedding_size=512,
                 device=self.device
@@ -480,7 +499,13 @@ def main():
     print(f"  Negative (different person): {negative_pairs}")
 
     # Initialize evaluator
-    evaluator = PrivacyEvaluator(device=args.device)
+    evaluator = PrivacyEvaluator(
+        device=args.device,
+        retinaface_model=args.retinaface_model,
+        arcface_model=args.arcface_model,
+        cosface_model=args.cosface_model,
+        adaface_model=args.adaface_model,
+    )
 
     # Evaluate each model
     all_results = {}

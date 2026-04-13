@@ -1,0 +1,12 @@
+- type: generative
+  method_name: ciagan
+  description: 'CIAGAN (weight: 0.7)'
+  weights_path: ./weight/ciagan_pre_trained/modelG_ciagan.pth
+  retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+  dlib_path: ./weight/ciagan_pre_trained/shape_predictor_68_face_landmarks.dat
+- type: ksame
+  method_name: select
+  description: 'k-Same-Select (weight: 0.3)'
+  k: 5
+  selection_mode: random
+  retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth

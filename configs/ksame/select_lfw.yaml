@@ -1,0 +1,12 @@
+# K-Same De-identification: k-Same-Select on LFW
+# Usage: python scripts/run_ksame_deid.py --config configs/ksame/select_lfw.yaml
+
+dataset: lfw
+method: select
+k: 10
+
+# Pretrained model paths
+retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+
+save_dir: runs/inference/ksame_select_lfw
+device: cuda

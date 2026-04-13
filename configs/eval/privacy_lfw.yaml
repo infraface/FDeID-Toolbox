@@ -1,0 +1,17 @@
+# Privacy Evaluation: LFW Dataset
+# Usage: python scripts/eval_privacy_lfw.py --config configs/eval/privacy_lfw.yaml --deid_dir /path/to/deid
+
+original_dir: /path/to/datasets/Dataset_LFW
+deid_dir: null  # Must be provided via CLI or overridden
+output_dir: runs/eval/privacy_lfw
+device: cuda
+models:
+  - arcface
+  - cosface
+  - adaface
+
+# Pretrained model paths
+retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+arcface_model: ./weight/ms1mv3_arcface_r100_fp16/backbone.pth
+cosface_model: ./weight/glint360k_cosface_r50_fp16_0.1/backbone.pth
+adaface_model: ./weight/adaface_pre_trained/adaface_ir50_ms1mv2.ckpt

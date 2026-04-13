@@ -1,0 +1,8 @@
+# Visual Quality Evaluation
+# Usage: python scripts/eval_quality.py --config configs/eval/quality.yaml --original_dir /path/to/orig --deid_dir /path/to/deid
+
+original_dir: null  # Must be provided via CLI or overridden
+deid_dir: null      # Must be provided via CLI or overridden
+output_dir: runs/eval/quality
+device: cuda
+batch_size: 32

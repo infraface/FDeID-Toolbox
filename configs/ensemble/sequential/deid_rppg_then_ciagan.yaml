@@ -1,0 +1,10 @@
+- type: generative
+  method_name: deid_rppg
+  description: 'Step 1: DeID-rPPG for rPPG preservation'
+  weights_path: ./weight/deid_rppg_pre_trained/autoencoder.pt
+- type: generative
+  method_name: ciagan
+  description: 'Step 2: CIAGAN identity transformation'
+  weights_path: ./weight/ciagan_pre_trained/modelG_ciagan.pth
+  retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+  dlib_path: ./weight/ciagan_pre_trained/shape_predictor_68_face_landmarks.dat

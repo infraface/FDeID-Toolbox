@@ -1,0 +1,16 @@
+# Generative De-identification: G2Face on LFW
+# Usage: python scripts/run_generative_deid.py --config configs/generative/g2face_lfw.yaml
+
+dataset: lfw
+method: g2face
+random_seed: 42
+
+# Pretrained model paths
+weights_path: ./weight/G2Face_pre_trained/weights/G2Face.pth
+arcface_path: ./weight/G2Face_pre_trained/weights/ms1mv3_arcface_r50.pth
+recon_path: ./weight/G2Face_pre_trained/weights/epoch_20.pth
+bfm_folder: ./weight/G2Face_pre_trained/BFM
+retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+
+save_dir: runs/inference/g2face_lfw
+device: cuda

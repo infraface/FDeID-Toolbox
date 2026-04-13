@@ -1,0 +1,14 @@
+# Generative De-identification: WeakenDiff on LFW
+# Usage: python scripts/run_generative_deid.py --config configs/generative/weakendiff_lfw.yaml
+
+dataset: lfw
+method: weakendiff
+preset: balanced
+
+# Pretrained model paths
+diffusion_model_id: ./weight/weakendiff_pre_trained
+assets_path: ./weight/weakendiff_pre_trained/assets
+retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+
+save_dir: runs/inference/weakendiff_lfw
+device: cuda

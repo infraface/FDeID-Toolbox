@@ -1,0 +1,4 @@
+- type: generative
+  method_name: deid_rppg
+  description: DeID-rPPG - Video de-identification with rPPG preservation
+  weights_path: ./weight/deid_rppg_pre_trained/autoencoder.pt

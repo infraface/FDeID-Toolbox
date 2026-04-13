@@ -1,0 +1,10 @@
+# Age Utility Evaluation on AgeDB
+# Usage: python scripts/eval_age.py --config configs/eval/age.yaml --deid_dir /path/to/deid
+
+original_dir: /path/to/datasets/AgeDB
+deid_dir: null  # Must be provided via CLI or overridden
+output_dir: runs/eval/age
+device: cuda
+
+# Pretrained model paths
+fairface_model: ./weight/FairFace_pre_trained/res34_fair_align_multi_7_20190809.pt

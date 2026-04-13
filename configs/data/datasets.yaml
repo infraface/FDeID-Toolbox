@@ -1,0 +1,12 @@
+# Dataset path references for the toolbox
+# Update these paths to match your local environment.
+
+lfw: /path/to/datasets/Dataset_LFW
+agedb: /path/to/datasets/AgeDB
+affectnet: /path/to/datasets/AffectNet
+celebahq: /path/to/datasets/Dataset_CelebA_HQ/celeba_hq
+fairface: /path/to/datasets/FairFace
+pure: /path/to/datasets/PURE
+
+# Model weight paths
+weight_dir: ./weight

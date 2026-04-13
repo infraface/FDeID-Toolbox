@@ -1,0 +1,12 @@
+# Naive De-identification: Gaussian Blur on LFW
+# Usage: python scripts/run_naive_deid.py --config configs/naive/blur_lfw.yaml
+
+dataset: lfw
+method: blur
+kernel_size: 60
+
+# Pretrained model paths
+retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+
+save_dir: runs/inference/blur_lfw
+device: cuda

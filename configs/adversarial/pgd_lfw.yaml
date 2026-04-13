@@ -1,0 +1,20 @@
+# Adversarial De-identification: PGD on LFW
+# Reference: Madry et al. "Towards Deep Learning Models Resistant to Adversarial Attacks" (ICLR 2018)
+# Usage: python scripts/run_adversarial_deid.py --config configs/adversarial/pgd_lfw.yaml
+
+dataset: lfw
+method: pgd
+epsilon: 0.06275  # 16/255
+alpha: 0.006275   # epsilon / num_iter
+num_iter: 10
+random_start: true
+seed: 0
+
+# Pretrained model paths
+retinaface_model: ./weight/retinaface_pre_trained/Resnet50_Final.pth
+arcface_model: ./weight/ms1mv3_arcface_r100_fp16/backbone.pth
+cosface_model: ./weight/glint360k_cosface_r50_fp16_0.1/backbone.pth
+adaface_model: ./weight/adaface_pre_trained/adaface_ir50_ms1mv2.ckpt
+
+save_dir: runs/inference/pgd_lfw
+device: cuda
