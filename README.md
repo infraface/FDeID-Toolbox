@@ -6,9 +6,12 @@ A modular face de-identification toolbox for privacy-preserving facial analysis 
 
 ## :bell: Bugs, Fixes, and New Features
 We welcome community feedback and contributions to help improve this toolbox.  
-* [x] Naive methods uploading.
-* [ ] $k$-Same family methods uploading.
 * [ ] Pretrained model uploading and download link providing.
+* [x] Generative methods uploading.
+* [x] Adversarial methods uploading.
+* [x] Naive methods uploading.
+* [x] $k$-Same family methods uploading.
+
 
 ## :rocket: Quick Start 
 
@@ -44,133 +47,6 @@ python scripts/run_naive_deid.py --dataset lfw --method blur --save_dir runs/inf
 python scripts/eval_privacy_lfw.py --config configs/eval/privacy_lfw.yaml --deid_dir runs/inference/blur_lfw
 python scripts/eval_quality.py --config configs/eval/quality.yaml --original_dir /path/to/lfw --deid_dir runs/inference/blur_lfw
 ```
-
-## :wrench: YAML Configuration
-
-All scripts accept `--config path/to/config.yaml`. The YAML keys correspond directly to CLI argument names (without the `--` prefix). CLI arguments always override YAML values.
-
-**Inference config example** (`configs/naive/blur_lfw.yaml`):
-```yaml
-dataset: lfw
-method: blur
-kernel_size: 60
-save_dir: runs/inference/blur_lfw
-device: cuda
-```
-
-**Evaluation config example** (`configs/eval/privacy_lfw.yaml`):
-```yaml
-original_dir: /path/to/datasets/Dataset_LFW
-deid_dir: null  # Provide via CLI: --deid_dir /path/to/deid
-output_dir: runs/eval/privacy_lfw
-device: cuda
-models:
-  - arcface
-  - cosface
-  - adaface
-```
-
-## :notebook: BaseDeIdentifier Class
-
-All de-identification methods inherit from `BaseDeIdentifier` (`core/fdeid/base.py`), providing a unified interface.
-
-### Interface
-
-```python
-from core.fdeid.base import BaseDeIdentifier
-
-class BaseDeIdentifier(ABC):
-    def __init__(self, config: dict):
-        """Initialize with a configuration dictionary."""
-        self.config = config
-        self.device = config.get('device', 'cuda')
-
-    @abstractmethod
-    def process_frame(self, frame: np.ndarray, face_bbox=None, **kwargs) -> np.ndarray:
-        """
-        Apply de-identification to a single frame.
-
-        Args:
-            frame: Input image (H, W, C) in BGR format, range [0, 255]
-            face_bbox: Optional bounding box (x1, y1, x2, y2)
-
-        Returns:
-            De-identified frame (H, W, C)
-        """
-        pass
-
-    def process_batch(self, frames: torch.Tensor, face_bboxes=None, **kwargs) -> torch.Tensor:
-        """Process a batch of frames (B, C, H, W). Override for native batch support."""
-
-    def get_name(self) -> str:
-        """Return method name."""
-
-    def get_config(self) -> dict:
-        """Return configuration dictionary."""
-
-    def to(self, device):
-        """Move to device."""
-```
-
-### Usage Examples
-
-#### Direct instantiation
-
-```python
-from core.fdeid.naive import GaussianBlurDeIdentifier
-
-config = {'kernel_size': 60, 'device': 'cuda'}
-deid = GaussianBlurDeIdentifier(config)
-result = deid.process_frame(image, face_bbox=[x1, y1, x2, y2])
-```
-
-#### Factory function
-
-```python
-from core.fdeid import get_deidentifier
-
-# Naive method
-config = {'type': 'naive', 'method_name': 'blur', 'kernel_size': 60, 'device': 'cuda'}
-deid = get_deidentifier(config)
-result = deid.process_frame(image, face_bbox=[x1, y1, x2, y2])
-
-# Generative method
-config = {'type': 'generative', 'method_name': 'ciagan', 'device': 'cuda'}
-deid = get_deidentifier(config)
-result = deid.process_frame(image, face_bbox=[x1, y1, x2, y2])
-```
-
-#### Implementing a new method
-
-```python
-import numpy as np
-from core.fdeid.base import BaseDeIdentifier
-
-class MyDeIdentifier(BaseDeIdentifier):
-    def __init__(self, config):
-        super().__init__(config)
-        self.intensity = config.get('intensity', 1.0)
-
-    def process_frame(self, frame, face_bbox=None, **kwargs):
-        if face_bbox is None:
-            return frame
-
-        result = frame.copy()
-        x1, y1, x2, y2 = [int(c) for c in face_bbox]
-
-        # Apply your de-identification to the face region
-        face = result[y1:y2, x1:x2]
-        face = self._transform(face)
-        result[y1:y2, x1:x2] = face
-
-        return result
-
-    def _transform(self, face):
-        # Your custom transformation
-        return (face * self.intensity).clip(0, 255).astype(np.uint8)
-```
-
-To integrate into the factory system, register in `core/fdeid/__init__.py`.
 
 ## :pencil: Available Methods
 
