@@ -6,7 +6,7 @@ A modular face de-identification toolbox for privacy-preserving facial analysis 
 
 ## :bell: Bugs, Fixes, and New Features
 We welcome community feedback and contributions to help improve this toolbox.  
-* [ ] Pretrained model uploading and download link providing.
+* [x] Pretrained model uploading and download link providing.
 * [x] Generative methods uploading.
 * [x] Adversarial methods uploading.
 * [x] Naive methods uploading.
@@ -17,6 +17,8 @@ We welcome community feedback and contributions to help improve this toolbox.
 
 ### Environment Setup
 **FDeID-Toolbox** is built exclusively on PyTorch, ensuring a lightweight and unified environment. No complex C++ extensions or conflicting frameworks.
+
+Note that the download link of all pretrained models: [link](https://huggingface.co/buckets/huiwei25/FDeID-Toolbox). 
 ```bash
 # 1. Clone the repo
 git clone https://github.com/infraface/FDeID-Toolbox.git
@@ -24,6 +26,9 @@ cd FDeID-Toolbox
 
 # 2. Install dependencies (Only PyTorch and standard vision libs)
 pip install -r requirements.txt
+
+# 3. Download the pretrained models and place them in the weight/ folder
+unzip weight.zip
 ```
 
 ### Running an Experiment
