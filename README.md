@@ -14,25 +14,120 @@ We welcome community feedback and contributions to help improve this toolbox.
 
 ## :pencil: Supported Methods
 FDeID-Toolbox currently supports the following face de-identification algorithms:
-| Category | Method | Config Key | Paper Link | 
-|----------|--------|------------| ------------| 
-| Naive | Gaussian Blur | `blur` |  ---  |
-| Naive | Pixelation | `pixelate` |  ---  |
-| Naive | Black Mask | `mask` |  ---  |
-| K-Same | k-Same-Average | `average` | <small>[Preserving Privacy by De-identifying Face Images](https://ieeexplore.ieee.org/document/1377174)<small> |
-| K-Same | k-Same-Select | `select` | <small>[Integrating Utility into Face De-identification](https://link.springer.com/chapter/10.1007/11767831_15)<small> |
-| K-Same | k-Same-Furthest | `furthest` | <small>[Face De-identification with Perfect Privacy Protection](https://ieeexplore.ieee.org/document/6859756)<small> | 
-| Generative | CIAGAN | `ciagan` | <small>[CIAGAN: Conditional Identity Anonymization Generative Adversarial Networks](https://openaccess.thecvf.com/content_CVPR_2020/html/Maximov_CIAGAN_Conditional_Identity_Anonymization_Generative_Adversarial_Networks_CVPR_2020_paper.html)<small> |
-| Generative | AMT-GAN | `amtgan` | <small>[Protecting Facial Privacy: Generating Adversarial Identity Masks via Style-Robust Makeup Transfer](https://openaccess.thecvf.com/content/CVPR2022/html/Hu_Protecting_Facial_Privacy_Generating_Adversarial_Identity_Masks_via_Style-Robust_Makeup_CVPR_2022_paper.html)<small> |
-| Generative | Adv-Makeup | `advmakeup` | <small>[Adv-Makeup: A New Imperceptible and Transferable Attack on Face Recognition](https://arxiv.org/abs/2105.03162)<small> |
-| Generative | WeakenDiff | `weakendiff` | <small>[Enhancing Facial Privacy Protection via Weakening Diffusion Purification](https://openaccess.thecvf.com/content/CVPR2025/html/Salar_Enhancing_Facial_Privacy_Protection_via_Weakening_Diffusion_Purification_CVPR_2025_paper.html)<small> |
-| Generative | DeID-rPPG | `deid_rppg` | <small>[De-identification of Facial Videos while Preserving Remote Physiological Utility](https://papers.bmvc2023.org/0230.pdf)<small> |
-| Generative | G2Face | `g2face` | <small>[G²Face: High-Fidelity Reversible Face Anonymization via Generative and Geometric Priors](https://ieeexplore.ieee.org/abstract/document/10644096?casa_token=m_NCPo_OrA4AAAAA:Dg8FslVjBG_UtThsgdXdcSIwnbxOA4S1i5NqNvQRZwDCqhL58BmIeey78288H29kbzcmf6pnfE5i)<small> |
-| Adversarial | PGD | `pgd` | <small>[Towards Deep Learning Models Resistant to Adversarial Attacks](https://arxiv.org/abs/1706.06083)<small> |
-| Adversarial | MI-FGSM | `mifgsm` | <small>[Boosting Adversarial Attacks With Momentum](https://openaccess.thecvf.com/content_cvpr_2018/html/Dong_Boosting_Adversarial_Attacks_CVPR_2018_paper.html)<small> |
-| Adversarial | TI-DIM | `tidim` | <small>[Evading Defenses to Transferable Adversarial Examples by Translation-Invariant Attacks](https://openaccess.thecvf.com/content_CVPR_2019/html/Dong_Evading_Defenses_to_Transferable_Adversarial_Examples_by_Translation-Invariant_Attacks_CVPR_2019_paper.html)<small> |
-| Adversarial | TI-PIM | `tipim` | <small>[Towards Face Encryption by Generating Adversarial Identity Masks](https://openaccess.thecvf.com/content/ICCV2021/html/Yang_Towards_Face_Encryption_by_Generating_Adversarial_Identity_Masks_ICCV_2021_paper.html)<small> |
-| Adversarial | Chameleon | `chameleon` | <small>[Personalized Privacy Protection Mask Against Unauthorized Facial Recognition](https://link.springer.com/chapter/10.1007/978-3-031-73007-8_25)<small> |
+<table>
+  <thead>
+    <tr>
+      <th><sub>Category</sub></th>
+      <th><sub>Method</sub></th>
+      <th><sub>Config Key</sub></th>
+      <th><sub>Paper Link</sub></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><sub>Naive</sub></td>
+      <td><sub>Gaussian Blur</sub></td>
+      <td><sub><code>blur</code></sub></td>
+      <td><sub>---</sub></td>
+    </tr>
+    <tr>
+      <td><sub>Naive</sub></td>
+      <td><sub>Pixelation</sub></td>
+      <td><sub><code>pixelate</code></sub></td>
+      <td><sub>---</sub></td>
+    </tr>
+    <tr>
+      <td><sub>Naive</sub></td>
+      <td><sub>Black Mask</sub></td>
+      <td><sub><code>mask</code></sub></td>
+      <td><sub>---</sub></td>
+    </tr>
+    <tr>
+      <td><sub>K-Same</sub></td>
+      <td><sub>k-Same-Average</sub></td>
+      <td><sub><code>average</code></sub></td>
+      <td><sub><a href="https://ieeexplore.ieee.org/document/1377174">Preserving Privacy by De-identifying Face Images</a></sub></td>
+    </tr>
+    <tr>
+      <td><sub>K-Same</sub></td>
+      <td><sub>k-Same-Select</sub></td>
+      <td><sub><code>select</code></sub></td>
+      <td><sub><a href="https://link.springer.com/chapter/10.1007/11767831_15">Integrating Utility into Face De-identification</a></sub></td>
+    </tr>
+    <tr>
+      <td><sub>K-Same</sub></td>
+      <td><sub>k-Same-Furthest</sub></td>
+      <td><sub><code>furthest</code></sub></td>
+      <td><sub><a href="https://ieeexplore.ieee.org/document/6859756">Face De-identification with Perfect Privacy Protection</a></sub></td>
+    </tr>
+    <tr>
+      <td><sub>Generative</sub></td>
+      <td><sub>CIAGAN</sub></td>
+      <td><sub><code>ciagan</code></sub></td>
+      <td><sub><a href="https://openaccess.thecvf.com/content_CVPR_2020/html/Maximov_CIAGAN_Conditional_Identity_Anonymization_Generative_Adversarial_Networks_CVPR_2020_paper.html">CIAGAN: Conditional Identity Anonymization Generative Adversarial Networks</a></sub></td>
+    </tr>
+    <tr>
+      <td><sub>Generative</sub></td>
+      <td><sub>AMT-GAN</sub></td>
+      <td><sub><code>amtgan</code></sub></td>
+      <td><sub><a href="https://openaccess.thecvf.com/content/CVPR2022/html/Hu_Protecting_Facial_Privacy_Generating_Adversarial_Identity_Masks_via_Style-Robust_Makeup_CVPR_2022_paper.html">Protecting Facial Privacy: Generating Adversarial Identity Masks via Style-Robust Makeup Transfer</a></sub></td>
+    </tr>
+    <tr>
+      <td><sub>Generative</sub></td>
+      <td><sub>Adv-Makeup</sub></td>
+      <td><sub><code>advmakeup</code></sub></td>
+      <td><sub><a href="https://arxiv.org/abs/2105.03162">Adv-Makeup: A New Imperceptible and Transferable Attack on Face Recognition</a></sub></td>
+    </tr>
+    <tr>
+      <td><sub>Generative</sub></td>
+      <td><sub>WeakenDiff</sub></td>
+      <td><sub><code>weakendiff</code></sub></td>
+      <td><sub><a href="https://openaccess.thecvf.com/content/CVPR2025/html/Salar_Enhancing_Facial_Privacy_Protection_via_Weakening_Diffusion_Purification_CVPR_2025_paper.html">Enhancing Facial Privacy Protection via Weakening Diffusion Purification</a></sub></td>
+    </tr>
+    <tr>
+      <td><sub>Generative</sub></td>
+      <td><sub>DeID-rPPG</sub></td>
+      <td><sub><code>deid_rppg</code></sub></td>
+      <td><sub><a href="https://papers.bmvc2023.org/0230.pdf">De-identification of Facial Videos while Preserving Remote Physiological Utility</a></sub></td>
+    </tr>
+    <tr>
+      <td><sub>Generative</sub></td>
+      <td><sub>G2Face</sub></td>
+      <td><sub><code>g2face</code></sub></td>
+      <td><sub><a href="https://ieeexplore.ieee.org/abstract/document/10644096?casa_token=m_NCPo_OrA4AAAAA:Dg8FslVjBG_UtThsgdXdcSIwnbxOA4S1i5NqNvQRZwDCqhL58BmIeey78288H29kbzcmf6pnfE5i">G²Face: High-Fidelity Reversible Face Anonymization via Generative and Geometric Priors</a></sub></td>
+    </tr>
+    <tr>
+      <td><sub>Adversarial</sub></td>
+      <td><sub>PGD</sub></td>
+      <td><sub><code>pgd</code></sub></td>
+      <td><sub><a href="https://arxiv.org/abs/1706.06083">Towards Deep Learning Models Resistant to Adversarial Attacks</a></sub></td>
+    </tr>
+    <tr>
+      <td><sub>Adversarial</sub></td>
+      <td><sub>MI-FGSM</sub></td>
+      <td><sub><code>mifgsm</code></sub></td>
+      <td><sub><a href="https://openaccess.thecvf.com/content_cvpr_2018/html/Dong_Boosting_Adversarial_Attacks_CVPR_2018_paper.html">Boosting Adversarial Attacks With Momentum</a></sub></td>
+    </tr>
+    <tr>
+      <td><sub>Adversarial</sub></td>
+      <td><sub>TI-DIM</sub></td>
+      <td><sub><code>tidim</code></sub></td>
+      <td><sub><a href="https://openaccess.thecvf.com/content_CVPR_2019/html/Dong_Evading_Defenses_to_Transferable_Adversarial_Examples_by_Translation-Invariant_Attacks_CVPR_2019_paper.html">Evading Defenses to Transferable Adversarial Examples by Translation-Invariant Attacks</a></sub></td>
+    </tr>
+    <tr>
+      <td><sub>Adversarial</sub></td>
+      <td><sub>TI-PIM</sub></td>
+      <td><sub><code>tipim</code></sub></td>
+      <td><sub><a href="https://openaccess.thecvf.com/content/ICCV2021/html/Yang_Towards_Face_Encryption_by_Generating_Adversarial_Identity_Masks_ICCV_2021_paper.html">Towards Face Encryption by Generating Adversarial Identity Masks</a></sub></td>
+    </tr>
+    <tr>
+      <td><sub>Adversarial</sub></td>
+      <td><sub>Chameleon</sub></td>
+      <td><sub><code>chameleon</code></sub></td>
+      <td><sub><a href="https://link.springer.com/chapter/10.1007/978-3-031-73007-8_25">Personalized Privacy Protection Mask Against Unauthorized Facial Recognition</a></sub></td>
+    </tr>
+  </tbody>
+</table>
 
 
 ## :rocket: Quick Start 
