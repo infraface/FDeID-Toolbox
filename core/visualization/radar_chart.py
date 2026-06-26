@@ -238,7 +238,7 @@ class RadarChartVisualizer(BaseVisualizer):
         angles += angles[:1]
 
         # --- Publication-quality radar chart ---
-        fig, ax = plt.subplots(figsize=(5.5, 5.5), subplot_kw=dict(polar=True))
+        fig, ax = plt.subplots(figsize=(6.2, 6.2), subplot_kw=dict(polar=True))
 
         # Draw concentric reference rings
         ring_levels = [0.2, 0.4, 0.6, 0.8, 1.0]
@@ -265,32 +265,50 @@ class RadarChartVisualizer(BaseVisualizer):
                        edgecolors='white', linewidths=0.5, zorder=4)
             ax.fill(angles, values, alpha=0.08, color=color, zorder=1)
 
-        # Axis labels at each spoke
-        ax.set_xticks(angles[:-1])
-        ax.set_xticklabels(available_metrics, fontsize=13, fontweight='medium')
-
-        # Radial ticks
+        # Radial range
         ax.set_ylim(0, 1.08)
+
+        # Spoke (metric) labels: placed manually just outside the outer ring,
+        # with angle-aware horizontal alignment so that long names grow away
+        # from the plot rather than overlapping the polygons, the radial tick
+        # labels, or each other. This resolves the label-overlap issue.
+        ax.set_xticks(angles[:-1])
+        ax.set_xticklabels([])  # suppress defaults; we place our own labels
+        label_radius = 1.20
+        for angle, label in zip(angles[:-1], available_metrics):
+            angle_deg = np.degrees(angle) % 360
+            if angle_deg < 1 or abs(angle_deg - 180) < 1:
+                ha = 'center'
+            elif angle_deg < 180:
+                ha = 'left'
+            else:
+                ha = 'right'
+            ax.text(angle, label_radius, label,
+                    ha=ha, va='center', fontsize=13, fontweight='medium',
+                    color='#222222', clip_on=False, zorder=5)
+
+        # Radial tick labels, rotated off the spokes to a gap between two axes
+        # so they do not collide with the data polygons or the metric labels.
         ax.set_yticks(ring_levels)
         ax.set_yticklabels([f'{v:.1f}' for v in ring_levels],
-                           fontsize=9, color='#888888')
-        ax.yaxis.set_tick_params(labelsize=9)
+                           fontsize=9, color='#999999')
+        ax.set_rlabel_position(np.degrees(angles[0]) + (360.0 / n_metrics) / 2.0)
+        ax.tick_params(axis='y', pad=0)
 
-        # Remove default grid
+        # Remove default grid and polar spine (custom rings/spokes drawn above)
         ax.grid(False)
-
-        # Spine styling
         ax.spines['polar'].set_visible(False)
 
-        # Legend
-        legend = ax.legend(
-            loc='upper right', bbox_to_anchor=(1.35, 1.10),
-            fontsize=12, frameon=True, framealpha=0.9,
-            edgecolor='#cccccc', fancybox=False,
-            handlelength=1.8, handletextpad=0.5, borderpad=0.5
+        # Legend below the chart, horizontal and frameless (Nature convention),
+        # which avoids the previous overlap with the outer spoke labels.
+        ncol = min(len(method_names), 4)
+        ax.legend(
+            loc='upper center', bbox_to_anchor=(0.5, -0.06),
+            ncol=ncol, fontsize=12, frameon=False,
+            handlelength=1.6, handletextpad=0.5, columnspacing=1.4,
         )
-        legend.get_frame().set_linewidth(0.6)
 
-        plt.tight_layout(pad=1.5)
+        # Reserve room for the outside spoke labels and the legend below.
+        fig.subplots_adjust(top=0.85, bottom=0.15, left=0.10, right=0.90)
 
         return self._save_figure(fig, 'radar_chart.png')

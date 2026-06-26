@@ -17,16 +17,17 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 
 
-# Publication-quality color palette (colorblind-friendly, print-safe)
+# Nature-style qualitative palette (Wong 2011, colorblind-safe and print-safe).
+# This is the palette recommended for Nature Methods figures.
 PAPER_COLORS = [
-    '#1f77b4',  # blue
-    '#d62728',  # red
-    '#2ca02c',  # green
-    '#ff7f0e',  # orange
-    '#9467bd',  # purple
-    '#8c564b',  # brown
-    '#e377c2',  # pink
-    '#7f7f7f',  # gray
+    '#0072B2',  # blue
+    '#D55E00',  # vermillion
+    '#009E73',  # bluish green
+    '#E69F00',  # orange
+    '#CC79A7',  # reddish purple
+    '#56B4E9',  # sky blue
+    '#999999',  # gray
+    '#000000',  # black
 ]
 
 PAPER_MARKERS = ['o', 's', '^', 'D', 'v', 'P', 'X', 'h']
@@ -34,56 +35,62 @@ PAPER_MARKERS = ['o', 's', '^', 'D', 'v', 'P', 'X', 'h']
 
 def apply_paper_style():
     """
-    Apply publication-quality matplotlib style (CVPR/ECCV/NeurIPS convention).
+    Apply Nature-style matplotlib defaults.
 
-    Sets serif fonts, proper tick directions, clean spines, and high-quality
-    rendering defaults suitable for camera-ready figures.
+    Follows the Nature figure convention: a clean sans-serif typeface
+    (Helvetica/Arial), outward ticks, only the left and bottom spines, no
+    bold titles, and a colorblind-safe palette. Tuned to stay legible after
+    the figures are scaled down to one- or two-column width in the manuscript.
     """
     style = {
-        # Font
-        'font.family': 'serif',
-        'font.serif': ['Times New Roman', 'Times', 'DejaVu Serif'],
-        'font.size': 12,
-        'mathtext.fontset': 'stix',
+        # Font: Nature uses Helvetica/Arial sans-serif
+        'font.family': 'sans-serif',
+        'font.sans-serif': ['Helvetica', 'Arial', 'DejaVu Sans'],
+        'font.size': 13,
+        'mathtext.fontset': 'dejavusans',
+        'axes.unicode_minus': False,
 
-        # Axes
+        # Axes: only left/bottom spines, thin and dark gray
         'axes.linewidth': 0.8,
-        'axes.edgecolor': '#333333',
-        'axes.labelsize': 14,
-        'axes.titlesize': 14,
-        'axes.titleweight': 'bold',
+        'axes.edgecolor': '#222222',
+        'axes.labelsize': 15,
+        'axes.titlesize': 15,
+        'axes.titleweight': 'normal',
         'axes.labelweight': 'normal',
-        'axes.spines.top': True,
-        'axes.spines.right': True,
+        'axes.labelcolor': '#222222',
+        'axes.spines.top': False,
+        'axes.spines.right': False,
 
-        # Ticks
-        'xtick.direction': 'in',
-        'ytick.direction': 'in',
-        'xtick.major.size': 4,
-        'ytick.major.size': 4,
+        # Ticks: outward, Nature convention
+        'xtick.direction': 'out',
+        'ytick.direction': 'out',
+        'xtick.color': '#222222',
+        'ytick.color': '#222222',
+        'xtick.major.size': 3.5,
+        'ytick.major.size': 3.5,
         'xtick.minor.size': 2,
         'ytick.minor.size': 2,
         'xtick.major.width': 0.8,
         'ytick.major.width': 0.8,
-        'xtick.labelsize': 11,
-        'ytick.labelsize': 11,
-        'xtick.major.pad': 4,
-        'ytick.major.pad': 4,
+        'xtick.labelsize': 12,
+        'ytick.labelsize': 12,
+        'xtick.major.pad': 3,
+        'ytick.major.pad': 3,
 
-        # Legend
+        # Legend: light, borderless-feeling
         'legend.fontsize': 12,
-        'legend.frameon': True,
-        'legend.framealpha': 0.9,
-        'legend.edgecolor': '#cccccc',
-        'legend.fancybox': False,
-        'legend.handlelength': 1.5,
+        'legend.frameon': False,
+        'legend.framealpha': 0.0,
+        'legend.handlelength': 1.4,
+        'legend.handletextpad': 0.5,
+        'legend.columnspacing': 1.2,
 
         # Figure
         'figure.facecolor': 'white',
         'figure.edgecolor': 'white',
         'figure.dpi': 150,
-        'figure.titlesize': 15,
-        'figure.titleweight': 'bold',
+        'figure.titlesize': 16,
+        'figure.titleweight': 'normal',
 
         # Saving
         'savefig.facecolor': 'white',
@@ -92,14 +99,14 @@ def apply_paper_style():
         'savefig.pad_inches': 0.05,
 
         # Lines
-        'lines.linewidth': 1.5,
+        'lines.linewidth': 1.6,
         'lines.markersize': 5,
 
-        # Grid
+        # Grid: faint solid hairlines
         'grid.linewidth': 0.5,
-        'grid.alpha': 0.3,
-        'grid.color': '#cccccc',
-        'grid.linestyle': '--',
+        'grid.alpha': 0.4,
+        'grid.color': '#dddddd',
+        'grid.linestyle': '-',
     }
     mpl.rcParams.update(style)
 

@@ -90,139 +90,16 @@ except ImportError:
             tmp_5pts += size_diff / 2
         return tmp_5pts
 
-# Define official InsightFace IResNet architecture (always used, not in fallback)
-def conv3x3(in_planes, out_planes, stride=1, groups=1, dilation=1):
-    """3x3 convolution with padding"""
-    return Conv2d(in_planes, out_planes, kernel_size=3, stride=stride,
-                 padding=dilation, groups=groups, bias=False, dilation=dilation)
-
-def conv1x1(in_planes, out_planes, stride=1):
-    """1x1 convolution"""
-    return Conv2d(in_planes, out_planes, kernel_size=1, stride=stride, bias=False)
-
-class IBasicBlock(Module):
-    """Official InsightFace Basic Block."""
-    expansion = 1
-
-    def __init__(self, inplanes, planes, stride=1, downsample=None,
-                 groups=1, base_width=64, dilation=1):
-        super(IBasicBlock, self).__init__()
-        if groups != 1 or base_width != 64:
-            raise ValueError('BasicBlock only supports groups=1 and base_width=64')
-        if dilation > 1:
-            raise NotImplementedError("Dilation > 1 not supported in BasicBlock")
-
-        self.bn1 = BatchNorm2d(inplanes, eps=1e-05)
-        self.conv1 = conv3x3(inplanes, planes)
-        self.bn2 = BatchNorm2d(planes, eps=1e-05)
-        self.prelu = PReLU(planes)
-        self.conv2 = conv3x3(planes, planes, stride)
-        self.bn3 = BatchNorm2d(planes, eps=1e-05)
-        self.downsample = downsample
-        self.stride = stride
-
-    def forward(self, x):
-        identity = x
-        out = self.bn1(x)
-        out = self.conv1(out)
-        out = self.bn2(out)
-        out = self.prelu(out)
-        out = self.conv2(out)
-        out = self.bn3(out)
-        if self.downsample is not None:
-            identity = self.downsample(x)
-        out += identity
-        return out
-
-class ArcFaceBackbone(Module):
-    """Official InsightFace IResNet Backbone (compatible with CosFace/ArcFace)."""
-    fc_scale = 7 * 7
-
-    def __init__(self, num_layers=50, drop_ratio=0.0, mode='ir', embedding_size=512,
-                 zero_init_residual=False, groups=1, width_per_group=64):
-        super(ArcFaceBackbone, self).__init__()
-        assert num_layers in [18, 34, 50, 100, 200], "num_layers should be 18, 34, 50, 100, or 200"
-
-        # Layer configuration for different depths
-        layers_config = {
-            18: [2, 2, 2, 2],
-            34: [3, 4, 6, 3],
-            50: [3, 4, 14, 3],
-            100: [3, 13, 30, 3],
-            200: [6, 26, 60, 6]
-        }
-        layers = layers_config[num_layers]
-        block = IBasicBlock
-
-        self.inplanes = 64
-        self.dilation = 1
-        self.groups = groups
-        self.base_width = width_per_group
-
-        # Input layer
-        self.conv1 = Conv2d(3, self.inplanes, kernel_size=3, stride=1, padding=1, bias=False)
-        self.bn1 = BatchNorm2d(self.inplanes, eps=1e-05)
-        self.prelu = PReLU(self.inplanes)
-
-        # Body layers
-        self.layer1 = self._make_layer(block, 64, layers[0], stride=2)
-        self.layer2 = self._make_layer(block, 128, layers[1], stride=2)
-        self.layer3 = self._make_layer(block, 256, layers[2], stride=2)
-        self.layer4 = self._make_layer(block, 512, layers[3], stride=2)
-
-        # Output layer
-        self.bn2 = BatchNorm2d(512 * block.expansion, eps=1e-05)
-        self.dropout = nn.Dropout(p=drop_ratio, inplace=True)
-        self.fc = Linear(512 * block.expansion * self.fc_scale, embedding_size)
-        self.features = BatchNorm1d(embedding_size, eps=1e-05)
-        nn.init.constant_(self.features.weight, 1.0)
-        self.features.weight.requires_grad = False
-
-        # Weight initialization
-        for m in self.modules():
-            if isinstance(m, Conv2d):
-                nn.init.normal_(m.weight, 0, 0.1)
-            elif isinstance(m, (BatchNorm2d, nn.GroupNorm)):
-                nn.init.constant_(m.weight, 1)
-                nn.init.constant_(m.bias, 0)
-
-        if zero_init_residual:
-            for m in self.modules():
-                if isinstance(m, IBasicBlock):
-                    nn.init.constant_(m.bn3.weight, 0)
-
-    def _make_layer(self, block, planes, blocks, stride=1):
-        downsample = None
-        if stride != 1 or self.inplanes != planes * block.expansion:
-            downsample = Sequential(
-                conv1x1(self.inplanes, planes * block.expansion, stride),
-                BatchNorm2d(planes * block.expansion, eps=1e-05),
-            )
-
-        layers = []
-        layers.append(block(self.inplanes, planes, stride, downsample,
-                          self.groups, self.base_width, self.dilation))
-        self.inplanes = planes * block.expansion
-        for _ in range(1, blocks):
-            layers.append(block(self.inplanes, planes, groups=self.groups,
-                              base_width=self.base_width, dilation=self.dilation))
-
-        return Sequential(*layers)
-
-    def forward(self, x):
-        x = self.conv1(x)
-        x = self.bn1(x)
-        x = self.prelu(x)
-        x = self.layer1(x)
-        x = self.layer2(x)
-        x = self.layer3(x)
-        x = self.layer4(x)
-        x = self.bn2(x)
-        x = torch.flatten(x, 1)
-        x = self.dropout(x)
-        x = self.fc(x)
-        x = self.features(x)
-        return x
+# =========================================================================
+# Backbone
+#
+# CosFace = IResNet backbone + additive (large-margin) cosine loss. The backbone
+# is architecture-only and identical to the one ArcFace uses; it is defined once
+# in core.identity.backbones.iresnet so the network is cleanly separated from the
+# loss it was trained with. Re-exported here for backward compatibility.
+# =========================================================================
+from .backbones import get_backbone
+from .backbones.iresnet import IResNet, ArcFaceBackbone  # noqa: F401  (re-export)
 
 
 # =========================================================================
@@ -257,7 +134,12 @@ class CosFace:
 
     CosFace and ArcFace share the same architecture; the difference is in the
     training loss function (additive cosine margin vs additive angular margin).
+    The underlying network is an IResNet (default IResNet-50, set by
+    ``num_layers``) defined in ``core.identity.backbones.iresnet``.
     """
+
+    # The loss this wrapper pairs with the IResNet backbone.
+    LOSS = 'cosface'
 
     def __init__(
         self,
@@ -278,13 +160,15 @@ class CosFace:
         self.device = torch.device(device if torch.cuda.is_available() else 'cpu')
         self.num_layers = num_layers
         self.embedding_size = embedding_size
+        self.backbone_name = f'iresnet{num_layers}'
 
-        # Load model (same architecture as ArcFace)
-        self.model = ArcFaceBackbone(
+        # Build the (loss-agnostic) IResNet backbone -- same network as ArcFace.
+        self.model = get_backbone(
+            'iresnet',
             num_layers=num_layers,
             drop_ratio=0.0,  # No dropout during inference
             mode='ir',
-            embedding_size=embedding_size
+            embedding_size=embedding_size,
         )
 
         self._load_model(model_path)

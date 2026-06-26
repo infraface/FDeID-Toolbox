@@ -179,15 +179,18 @@ class AttributeOverlayVisualizer(BaseVisualizer):
         n_rows = n_total_rows
         n_cols = len(selected)
 
-        # Each cell: image + vertically stacked text below
-        cell_w = 2.4
-        cell_h = 3.2  # taller to accommodate stacked attribute lines
-        label_margin = 0.6  # space for vertical row labels on the left
+        # Each cell: image + vertically stacked text below. Cell aspect is kept
+        # close to square so that, with a small number of rows, the panel is
+        # landscape and its height matches the neighboring radar / t-SNE panels
+        # when the three are placed side by side in a double-column figure.
+        cell_w = 2.3
+        cell_h = 2.9  # leaves room for stacked attribute lines below the image
+        label_margin = 0.85  # space for vertical row labels on the left
         fig_w = cell_w * n_cols + label_margin
         fig_h = cell_h * n_rows + 0.2
         fig = plt.figure(figsize=(fig_w, fig_h))
         left = label_margin / fig_w
-        gs = GridSpec(n_rows, n_cols, figure=fig, wspace=0.05, hspace=0.35,
+        gs = GridSpec(n_rows, n_cols, figure=fig, wspace=0.05, hspace=0.50,
                       top=0.98, bottom=0.02, left=left, right=0.98)
 
         # Pre-compute original attributes for each selected image
@@ -209,7 +212,7 @@ class AttributeOverlayVisualizer(BaseVisualizer):
             ax = fig.add_subplot(gs[0, col_idx])
             self._show_image(ax, orig_rgb)
             if col_idx == 0:
-                ax.set_ylabel(row_labels[0], fontsize=14, fontweight='bold',
+                ax.set_ylabel(row_labels[0], fontsize=17, fontweight='bold',
                               rotation=90, labelpad=10, va='center')
             orig_parts = self._build_attr_label(orig_attrs)
             self._annotate_attrs(ax, orig_parts)
@@ -233,7 +236,7 @@ class AttributeOverlayVisualizer(BaseVisualizer):
                 ax = fig.add_subplot(gs[row_idx + 1, col_idx])
                 self._show_image(ax, deid_rgb if deid_rgb is not None else orig_rgb)
                 if col_idx == 0:
-                    ax.set_ylabel(row_labels[row_idx + 1], fontsize=14,
+                    ax.set_ylabel(row_labels[row_idx + 1], fontsize=17,
                                   fontweight='bold', rotation=90,
                                   labelpad=10, va='center')
 
@@ -266,10 +269,10 @@ class AttributeOverlayVisualizer(BaseVisualizer):
         if not parts:
             return
 
-        line_spacing = 0.065
-        y_start = -0.05
+        line_spacing = 0.11
+        y_start = -0.07
         for i, (text, color) in enumerate(parts):
             ax.text(0.5, y_start - i * line_spacing, text,
                     transform=ax.transAxes,
-                    fontsize=10, color=color, fontweight='semibold',
+                    fontsize=16, color=color, fontweight='semibold',
                     ha='center', va='top', family='sans-serif')

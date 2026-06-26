@@ -110,8 +110,7 @@ class SideBySideVisualizer(BaseVisualizer):
         if self.show_bbox:
             try:
                 from core.identity.retinaface import FaceDetector
-                retinaface_model = self.config.get('retinaface_model',
-                    './weight/retinaface_pre_trained/Resnet50_Final.pth')
+                retinaface_model = './weight/retinaface_pre_trained/Resnet50_Final.pth'
                 device = self.config.get('device', 'cuda')
                 detector = FaceDetector(
                     model_path=retinaface_model,

@@ -22,11 +22,11 @@ from sklearn.manifold import TSNE
 from .base import BaseVisualizer, PAPER_COLORS, PAPER_MARKERS
 
 
-# Default model paths (overridable via config)
-DEFAULT_RETINAFACE_MODEL = './weight/retinaface_pre_trained/Resnet50_Final.pth'
-DEFAULT_ARCFACE_MODEL = './weight/ms1mv3_arcface_r100_fp16/backbone.pth'
-DEFAULT_COSFACE_MODEL = './weight/glint360k_cosface_r50_fp16_0.1/backbone.pth'
-DEFAULT_ADAFACE_MODEL = './weight/adaface_pre_trained/adaface_ir50_ms1mv2.ckpt'
+# Model paths
+RETINAFACE_MODEL = './weight/retinaface_pre_trained/Resnet50_Final.pth'
+ARCFACE_MODEL = './weight/ms1mv3_arcface_r100_fp16/backbone.pth'
+COSFACE_MODEL = './weight/glint360k_cosface_r50_fp16_0.1/backbone.pth'
+ADAFACE_MODEL = './weight/adaface_pre_trained/adaface_ir50_ms1mv2.ckpt'
 
 
 class EmbeddingTSNEVisualizer(BaseVisualizer):
@@ -48,10 +48,6 @@ class EmbeddingTSNEVisualizer(BaseVisualizer):
         # Allow overriding display names for methods
         self.method_display_names = config.get('method_display_names', None)
 
-        self.retinaface_model = config.get('retinaface_model', DEFAULT_RETINAFACE_MODEL)
-        self.arcface_model = config.get('arcface_model', DEFAULT_ARCFACE_MODEL)
-        self.cosface_model = config.get('cosface_model', DEFAULT_COSFACE_MODEL)
-        self.adaface_model = config.get('adaface_model', DEFAULT_ADAFACE_MODEL)
         self._detector = None
         self._recognizer = None
         self._transform = transforms.Compose([
@@ -64,7 +60,7 @@ class EmbeddingTSNEVisualizer(BaseVisualizer):
         if self._detector is None:
             from core.identity.retinaface import FaceDetector
             self._detector = FaceDetector(
-                model_path=self.retinaface_model,
+                model_path=RETINAFACE_MODEL,
                 network='resnet50',
                 device=self.device
             )
@@ -78,21 +74,21 @@ class EmbeddingTSNEVisualizer(BaseVisualizer):
 
         if self.model_name == 'arcface':
             self._recognizer = ArcFace(
-                model_path=self.arcface_model,
+                model_path=ARCFACE_MODEL,
                 num_layers=100,
                 embedding_size=512,
                 device=self.device
             )
         elif self.model_name == 'cosface':
             self._recognizer = CosFace(
-                model_path=self.cosface_model,
+                model_path=COSFACE_MODEL,
                 num_layers=50,
                 embedding_size=512,
                 device=self.device
             )
         elif self.model_name == 'adaface':
             self._recognizer = AdaFace(
-                model_path=self.adaface_model,
+                model_path=ADAFACE_MODEL,
                 architecture='ir_50',
                 device=self.device
             )
@@ -285,9 +281,13 @@ class EmbeddingTSNEVisualizer(BaseVisualizer):
         )
         legend.get_frame().set_linewidth(0.6)
 
-        for spine in ax.spines.values():
-            spine.set_linewidth(0.8)
-            spine.set_color('#333333')
+        # Nature convention: keep only the left and bottom spines.
+        for name, spine in ax.spines.items():
+            if name in ('top', 'right'):
+                spine.set_visible(False)
+            else:
+                spine.set_linewidth(0.8)
+                spine.set_color('#222222')
 
         plt.tight_layout()
 

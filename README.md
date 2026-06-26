@@ -12,6 +12,28 @@ We welcome community feedback and contributions to help improve this toolbox.
 * [x] Naive methods uploading.
 * [x] $k$-Same family methods uploading.
 
+## :pencil: Supported Methods
+FDeID-Toolbox currently supports the following face de-identification algorithms:
+| Category | Method | Config Key | Paper Link | 
+|----------|--------|------------| ------------| 
+| Naive | Gaussian Blur | `blur` |  ---  |
+| Naive | Pixelation | `pixelate` |  ---  |
+| Naive | Black Mask | `mask` |  ---  |
+| K-Same | k-Same-Average | `average` | [Preserving Privacy by De-identifying Face Images](https://ieeexplore.ieee.org/document/1377174) |
+| K-Same | k-Same-Select | `select` | [Integrating Utility into Face De-identification](https://link.springer.com/chapter/10.1007/11767831_15) |
+| K-Same | k-Same-Furthest | `furthest` | [Face De-identification with Perfect Privacy Protection](https://ieeexplore.ieee.org/document/6859756) | 
+| Generative | CIAGAN | `ciagan` | [CIAGAN: Conditional Identity Anonymization Generative Adversarial Networks](https://openaccess.thecvf.com/content_CVPR_2020/html/Maximov_CIAGAN_Conditional_Identity_Anonymization_Generative_Adversarial_Networks_CVPR_2020_paper.html) |
+| Generative | AMT-GAN | `amtgan` | [Protecting Facial Privacy: Generating Adversarial Identity Masks via Style-Robust Makeup Transfer](https://openaccess.thecvf.com/content/CVPR2022/html/Hu_Protecting_Facial_Privacy_Generating_Adversarial_Identity_Masks_via_Style-Robust_Makeup_CVPR_2022_paper.html) |
+| Generative | Adv-Makeup | `advmakeup` | [Adv-Makeup: A New Imperceptible and Transferable Attack on Face Recognition](https://arxiv.org/abs/2105.03162) |
+| Generative | WeakenDiff | `weakendiff` | [Enhancing Facial Privacy Protection via Weakening Diffusion Purification](https://openaccess.thecvf.com/content/CVPR2025/html/Salar_Enhancing_Facial_Privacy_Protection_via_Weakening_Diffusion_Purification_CVPR_2025_paper.html) |
+| Generative | DeID-rPPG | `deid_rppg` | [De-identification of Facial Videos while Preserving Remote Physiological Utility](https://papers.bmvc2023.org/0230.pdf) |
+| Generative | G2Face | `g2face` | [G²Face: High-Fidelity Reversible Face Anonymization via Generative and Geometric Priors](https://ieeexplore.ieee.org/abstract/document/10644096?casa_token=m_NCPo_OrA4AAAAA:Dg8FslVjBG_UtThsgdXdcSIwnbxOA4S1i5NqNvQRZwDCqhL58BmIeey78288H29kbzcmf6pnfE5i) |
+| Adversarial | PGD | `pgd` | [Towards Deep Learning Models Resistant to Adversarial Attacks](https://arxiv.org/abs/1706.06083) |
+| Adversarial | MI-FGSM | `mifgsm` | [Boosting Adversarial Attacks With Momentum](https://openaccess.thecvf.com/content_cvpr_2018/html/Dong_Boosting_Adversarial_Attacks_CVPR_2018_paper.html) |
+| Adversarial | TI-DIM | `tidim` | [Evading Defenses to Transferable Adversarial Examples by Translation-Invariant Attacks](https://openaccess.thecvf.com/content_CVPR_2019/html/Dong_Evading_Defenses_to_Transferable_Adversarial_Examples_by_Translation-Invariant_Attacks_CVPR_2019_paper.html) |
+| Adversarial | TI-PIM | `tipim` | [Towards Face Encryption by Generating Adversarial Identity Masks](https://openaccess.thecvf.com/content/ICCV2021/html/Yang_Towards_Face_Encryption_by_Generating_Adversarial_Identity_Masks_ICCV_2021_paper.html) |
+| Adversarial | Chameleon | `chameleon` | [Personalized Privacy Protection Mask Against Unauthorized Facial Recognition](https://link.springer.com/chapter/10.1007/978-3-031-73007-8_25) |
+
 
 ## :rocket: Quick Start 
 
@@ -52,28 +74,6 @@ python scripts/run_naive_deid.py --dataset lfw --method blur --save_dir runs/inf
 python scripts/eval_privacy_lfw.py --config configs/eval/privacy_lfw.yaml --deid_dir runs/inference/blur_lfw
 python scripts/eval_quality.py --config configs/eval/quality.yaml --original_dir /path/to/lfw --deid_dir runs/inference/blur_lfw
 ```
-
-## :pencil: Available Methods
-
-| Category | Method | Config Key |
-|----------|--------|------------|
-| Naive | Gaussian Blur | `blur` |
-| Naive | Pixelation | `pixelate` |
-| Naive | Black Mask | `mask` |
-| Generative | CIAGAN | `ciagan` |
-| Generative | AMT-GAN | `amtgan` |
-| Generative | Adv-Makeup | `advmakeup` |
-| Generative | WeakenDiff | `weakendiff` |
-| Generative | DeID-rPPG | `deid_rppg` |
-| Generative | G2Face | `g2face` |
-| Adversarial | PGD | `pgd` |
-| Adversarial | MI-FGSM | `mifgsm` |
-| Adversarial | TI-DIM | `tidim` |
-| Adversarial | TI-PIM | `tipim` |
-| Adversarial | Chameleon | `chameleon` |
-| K-Same | k-Same-Average | `average` |
-| K-Same | k-Same-Select | `select` |
-| K-Same | k-Same-Furthest | `furthest` |
 
 ## :triangular_ruler: Evaluation Metrics 
 
